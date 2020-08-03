@@ -8,50 +8,53 @@ package com.twu.refactoring;
  * 
  */
 public class OrderReceipt {
-    private Order o;
 
-    public OrderReceipt(Order o) {
-        this.o = o;
+	public static final String header = "======Printing Orders======\n";
+	private Order order;
+
+
+    public OrderReceipt(Order order) {
+        this.order = order;
 	}
 
 	public String printReceipt() {
 		StringBuilder output = new StringBuilder();
 
-		// print headers
-		output.append("======Printing Orders======\n");
+		output.append(header)
+				.append(getCustomerInfo())
+			  	.append(getLineItemsInfo())
+			  	.append(getSalesTax())
+				.append(getTotalAmount());
 
-		// print date, bill no, customer name
-//        output.append("Date - " + order.getDate();
-        output.append(o.getCustomerName());
-        output.append(o.getCustomerAddress());
-//        output.append(order.getCustomerLoyaltyNumber());
+		return output.toString();
+	}
 
-		// prints lineItems
-		double totSalesTx = 0d;
-		double tot = 0d;
-		for (LineItem lineItem : o.getLineItems()) {
-			output.append(lineItem.getDescription());
-			output.append('\t');
-			output.append(lineItem.getPrice());
-			output.append('\t');
-			output.append(lineItem.getQuantity());
-			output.append('\t');
-			output.append(lineItem.totalAmount());
-			output.append('\n');
+	private String getTotalAmount() {
+		StringBuilder output = new StringBuilder();
+		output.append("Total Amount")
+				.append('\t')
+				.append(order.getTotalAmount())
+				.append("\n");
+		return output.toString();
+	}
 
-			// calculate sales tax @ rate of 10%
-            double salesTax = lineItem.totalAmount() * .10;
-            totSalesTx += salesTax;
+	private String getSalesTax() {
+		StringBuilder output = new StringBuilder();
+		output.append("Sales Tax").append('\t').append(order.getTotalSalesTax());
+		return output.toString();
+	}
 
-            // calculate total amount of lineItem = price * quantity + 10 % sales tax
-            tot += lineItem.totalAmount() + salesTax;
+	private String getCustomerInfo() {
+		StringBuilder output = new StringBuilder();
+		output.append(order.getCustomerName()).append("\t").append(order.getCustomerAddress());
+		return output.toString();
+	}
+
+	private String getLineItemsInfo() {
+		StringBuilder output = new StringBuilder();
+		for (LineItem lineItem : order.getLineItems()) {
+			output.append(lineItem.lineItemToString());
 		}
-
-		// prints the state tax
-		output.append("Sales Tax").append('\t').append(totSalesTx);
-
-        // print total amount
-		output.append("Total Amount").append('\t').append(tot);
 		return output.toString();
 	}
 }

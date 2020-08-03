@@ -3,25 +3,43 @@ package com.twu.refactoring;
 import java.util.List;
 
 public class Order {
-    String nm;
-    String addr;
-    List<LineItem> li;
+    String customerName;
+    String address;
+    List<LineItem> lineItems;
 
-    public Order(String nm, String addr, List<LineItem> li) {
-        this.nm = nm;
-        this.addr = addr;
-        this.li = li;
+    public Order(String nm, String address, List<LineItem> lineItems) {
+        this.customerName = nm;
+        this.address = address;
+        this.lineItems = lineItems;
     }
 
     public String getCustomerName() {
-        return nm;
+        return customerName;
     }
 
     public String getCustomerAddress() {
-        return addr;
+        return address;
     }
 
     public List<LineItem> getLineItems() {
-        return li;
+        return lineItems;
     }
+
+    public double getTotalAmount() {
+        double totalAmount = 0d;
+        for (LineItem lineItem : lineItems) {
+            totalAmount += lineItem.totalAmount();
+        }
+        totalAmount += getTotalSalesTax();
+        return totalAmount;
+    }
+
+    public double getTotalSalesTax() {
+        double totalTax = 0d;
+        for (LineItem lineItem : lineItems) {
+            totalTax += lineItem.getSalesTax();
+        }
+        return totalTax;
+    }
+
 }
