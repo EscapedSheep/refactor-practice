@@ -13,25 +13,25 @@ public class DirectionTest {
 
     @BeforeEach
     public void setUp() throws Exception {
-        north = new Direction('N');
-        east = new Direction('E');
+        north = North.getNorth();
+        east = East.getEast();
     }
 
     @Test
     public void shouldTurnEastWhenTurnRightFromNorth() {
         Direction east = north.turnRight();
-        assertThat(east, is(new Direction('E')));
+        assertThat(east, is(East.getEast()));
     }
 
     @Test
     public void shouldTurnWestWhenTurnLeftFromNorth() {
         Direction west = north.turnLeft();
-        assertThat(west, is(new Direction('W')));
+        assertThat(west, is(West.getWest()));
     }
 
     @Test
     public void shouldTurnNorthWhenTurnLeftFromEast() {
         Direction north = east.turnLeft();
-        assertThat(north, is(new Direction('N')));
+        assertThat(north, is(North.getNorth()));
     }
 }
